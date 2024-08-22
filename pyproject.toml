@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "msic"
+version = "0.1.1"
+description = "CLI to compress MuSIC by retaining the directory structure and placing output files in a separate location"
+authors = ["Lavender Shannon <retrodaredevil@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+repository = "https://github.com/retrodaredevil/msic"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.10.0"
+black = "^24.4.0"
+ffmpeg-python = "0.2.0"
+
+
+[tool.poetry.scripts]
+msic = 'msic:entry'
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+# https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#configuration-format
+line-length = 180
+
+[package]
+# Explicitly include py.typed
+include = ["py.typed"]

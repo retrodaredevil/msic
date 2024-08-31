@@ -1,5 +1,7 @@
 .idea/
 asdf/
+test_data/
+*.m3u
 
 # Created by https://www.gitignore.io/api/linux,macos,python,pycharm,windows
 # Edit at https://www.gitignore.io/?templates=linux,macos,python,pycharm,windows

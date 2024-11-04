@@ -2,7 +2,7 @@ import argparse
 from argparse import Namespace
 from typing import Callable
 
-from msic.compress import handle_convert
+from msic.copy import handle_copy
 from msic.playlist import handle_playlist
 
 
@@ -15,15 +15,17 @@ def main(args: list[str]) -> int:
     # https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser.add_subparsers
     subparsers = root_parser.add_subparsers()
 
-    compress_parser = subparsers.add_parser("compress")
-    compress_parser.set_defaults(handle_args=handle_convert)
+    compress_parser = subparsers.add_parser("copy")
+    compress_parser.set_defaults(handle_args=handle_copy)
     # https://docs.python.org/3/library/argparse.html#action
     compress_parser.add_argument("inputs", nargs="+", help="Input directorie(s)")
     compress_parser.add_argument('output', help='Destination directory')
+    compress_parser.add_argument('--audio', default="compress", choices=("none", "raw", "compress"), help='Copy audio files? (Default compress)')
     compress_parser.add_argument('-y', action="store_true", help="Overwrite output files (the default)")
     compress_parser.add_argument('-n', action="store_true", help="Don't overwrite output files")
     compress_parser.add_argument('--skip-existing', action="store_true")
     compress_parser.add_argument('--skip-non-audio', action="store_true")
+    compress_parser.add_argument('--metadata', action="store_true")
 
 
     playlist_parser = subparsers.add_parser("playlist")

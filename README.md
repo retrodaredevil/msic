@@ -5,7 +5,7 @@ A MuSIC compressor to retain the directory structure and place output files in a
 ## Usage
 
 ```shell
-msic compress ~/Music/MainLibrary/music-my-cd ~/Music/Compressed
+msic copy --audio=compress ~/Music/MainLibrary/music-my-cd ~/Music/Compressed
 ```
 
 ## Local Setup
@@ -23,6 +23,13 @@ If we were seriously interested in using a hardware accelerated ffmpeg, I would 
 
 ## TODO
 
+* Make conversions in parallel
 * Try out this library: https://github.com/jonghwanhyeon/python-ffmpeg
   * It's more up to date and has docs: https://python-ffmpeg.readthedocs.io/en/stable/
 * (Maybe) rewrite in Rust using https://github.com/zmwangx/rust-ffmpeg
+* A subcommand to convert files to a smaller file size only if some criteria is met
+  * Example: 
+    * Convert all sample rates above 50 to 44.1
+    * Convert all MP3 files to OPUS
+  * The idea here is that you should be able to specify these complex rules, and then have a test output so you can see what will happen
+* Consider using https://beets.io/ as a dependency

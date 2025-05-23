@@ -11,6 +11,11 @@ msic copy --audio=compress ~/Music/MainLibrary/music-my-cd ~/Music/Compressed
 ## Local Setup
 
 ```shell
+# Running the "env use" command is only required if you do not have a Python version >= 3.11
+poetry env use /home/linuxbrew/.linuxbrew/bin/python3
+# or
+poetry env use python3.13
+
 poetry install
 poetry run python -m msic
 ```
@@ -33,3 +38,30 @@ If we were seriously interested in using a hardware accelerated ffmpeg, I would 
     * Convert all MP3 files to OPUS
   * The idea here is that you should be able to specify these complex rules, and then have a test output so you can see what will happen
 * Consider using https://beets.io/ as a dependency
+
+## Random Links
+
+* https://python-plexapi.readthedocs.io/en/latest/
+* https://musicbrainz.org/doc/MusicBrainz_API
+* https://support.plex.tv/articles/201018248-merge-or-split-items/
+* https://pypi.org/project/musicbrainzngs/
+
+## Plex API Stuff
+
+We use [plexapi](https://python-plexapi.readthedocs.io/en/latest/) to query plex.
+Once you have a [MusicSection](https://python-plexapi.readthedocs.io/en/latest/modules/library.html#plexapi.library.MusicSection),
+you can begin querying artists, albums, and tracks.
+The MusicBrainz Identifiers attached to these map to [artists](https://musicbrainz.org/doc/Artist), [releases](https://musicbrainz.org/doc/Release), and [tracks](https://musicbrainz.org/doc/Track) respectively.
+Remember that different versions of the same album may have the same recording of a song, but different tracks.
+So often times it is most useful to convert the track [Musicbrainz Identifier](https://musicbrainz.org/doc/MusicBrainz_Identifier) to the recording mbid.
+
+## MusicBrainz track querying
+To query a track, you can query something like https://musicbrainz.org/ws/2/release?track=dc2784b9-59ca-46ca-a19e-b998c98f278c&fmt=json, which is not possible via musicbrainzngs.
+Note that the returned tracks may not contain the MBID given in the query if a merge has occurred.
+Remember that the returned tracks are all the tracks on a given release.
+That can make it difficult to accurately determine which track is actually the one you queried for.
+
+
+## Related Stuff
+* https://beets.io/
+* https://github.com/arsaboo/beets-plexsync

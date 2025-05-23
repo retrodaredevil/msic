@@ -1,6 +1,6 @@
 import dataclasses
 import sys
-from argparse import Namespace
+from argparse import Namespace, _SubParsersAction
 from pathlib import Path
 from typing import Optional
 from urllib.parse import urlsplit
@@ -21,7 +21,7 @@ def alter_playlist(config: PlaylistConfig, playlist: m3u8.M3U8):
         if not urlsplit(segment.uri).scheme:  # ignore URLs
             path = Path(segment.uri)
             if config.make_absolute:
-                relative_to = config.relative_to if config.relative_to is not None else Path(".")
+                relative_to = config.relative_to if config.relative_to is not None else Path("..")
                 if not path.is_absolute():
                     path = (relative_to / path).absolute()
             elif config.relative_to is not None:
@@ -32,6 +32,16 @@ def alter_playlist(config: PlaylistConfig, playlist: m3u8.M3U8):
 
             segment.uri = str(path)
 
+
+def setup_playlist(subparsers: _SubParsersAction):
+    parser = subparsers.add_parser("playlist")
+    parser.set_defaults(handle_args=handle_playlist)
+    # https://docs.python.org/3/library/argparse.html#action
+    parser.add_argument("input", help="Input m3u file")
+    parser.add_argument("output", help="Output m3u file")
+    parser.add_argument("--relative-to", help="Make the files relative to this directory. When not specified, paths will not be altered unless --absolute is set.")
+    parser.add_argument("--relative-prefix", help="The prefix added to all relative paths. Not valid when using --absolute.")
+    parser.add_argument("--absolute", action="store_true", help="Make the output absolute. By default makes paths relative to the input playlist's parent directory. Optionally specify --relative-to to change this.")
 
 
 def handle_playlist(args: Namespace) -> int:
